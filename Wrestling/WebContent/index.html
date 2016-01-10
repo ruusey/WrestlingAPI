@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Wrestling Manager | Team View</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/js/kickstart.js"></script> <!-- KICKSTART -->
+<script src="/js/scripts_home.js"></script> <!-- KICKSTART -->
+<script src="/ckeditor/ckeditor.js"></script> <!-- KICKSTART -->
+<script src="/toastr/toastr.js"></script> <!-- KICKSTART -->
+<link rel="stylesheet" href="/toastr/build/toastr.css" media="all" /> 
+<link rel="shortcut icon" href="/img/icn.png">
+<link rel="stylesheet" href="/css/kickstart.css" media="all" /> 
+<link rel="stylesheet" href="/css/fonts/css/font-awesome.css" media="all" /> <!-- KICKSTART --><!-- KICKSTART -->
+<link rel="stylesheet" href="/css/fonts/css/font-awesome.min.css" media="all" /> <!-- KICKSTART --><!-- KICKSTART -->
+<link rel="stylesheet" type="text/css" media="only screen and (max-device-width: 600px)" href="/css/mobile.css" />
+</head>
+<body>
+<div id="page_overlay"class="overlay"></div>
+<div class="grid flex">
+<div id="news_banner" class="col_12 column"> 
+<marquee id="banner_marquee" scrollamount="10" behavior="scroll" direction="Right">
+<div id="news_container">
+<p>Upcoming Events: </p>
+</div>
+</marquee>
+</div>
+<div id = "ticker_description" class="col_2 column">
+<h6>Info:</h6>
+<p id = "ticker_description_text"></p>
+</div>
+<div class="col_9 column">
+<a href="manage" class="button medium green">Manage Team (login required)</a>
+<a href="logs" class="button medium green">View Match Logs</a>
+<a id="view_current_match"class="button medium green">View Current Match</a></div>
+
+<img  id="home_image" class="align-right col_3 column" src="/img/Wrestling.png" width="400"/>
+<hr class="alt1" style="color:orange"></hr>
+<div id="bulletin_container" class="center col_4 column">
+<h4 style="color:#00573c">Important Information</h4>
+<textarea name="team_bulletin" id="team_bulletin" rows="20" cols="80">
+               
+</textarea>
+            <button id="update_bulletin"type="button" class="button large"><i class="fa fa-save"></i>&nbsp; Save</button>
+</div>
+<div id = "splash_container" class="col_4 column center">
+<h4 style="color:#00573c">Recent Tweets #westminsterwrestling</h4>
+<a class="twitter-timeline" href="https://twitter.com/search?q=%23westminsterwrestling%20since%3A2015-11-17" data-widget-id="666730956682870784">Tweets about #westminsterwrestling since:2015-11-17</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</div>
+
+<div id="top_stats_outer"class="center col_4 column" style="float:right;">
+<h4 style="color:#00573c">Top Stats</h4>
+<br>
+<div class="top_stats_container" >
+
+<table id="top_stats" class="striped">
+<thead>
+				<tr>
+					<th>Stat</th>
+					<th>Name</th>
+					<th>Number</th>
+				</tr>
+			</thead>
+</table>
+</div>
+<a class ="button small" onclick="showStatSheet();">Show Stat Sheet</a>
+</div>
+
+<div id = "stat_sheet_container">
+<fieldset class="center">
+		<legend >Varsity Stat Sheet</legend>
+		
+		<div id="stats_table_container">
+		
+		<table class="striped sortable" id="stat_sheet_table">
+			<thead>
+				<tr>
+					<th>Wrestler</th>
+					<th>Takedowns</th>
+					<th>Escapes</th>
+					<th>Nearfall</th>
+					<th>Pins</th>
+					<th>Wins</th>
+					<th>Losses</th>
+					<th>Teampoints</th>
+					<th>Reversals</th>
+					<th>Forfeits</th>
+				</tr>
+			</thead>
+		</table>
+		</div>
+		<a class ="button small" onclick="closeStatSheet();">Close</a>
+	</fieldset>
+	
+</div>
+
+
+	<fieldset id="wrestlers_fieldset" class="center col_12 column">
+		<legend>Current Wrestlers</legend>
+		<table class="striped sortable" id="wrestlers_table">
+			<thead>
+				<tr>
+					<th>Team</th>
+					<th>Name</th>
+					<th>Weight</th>
+				</tr>
+			</thead>
+		</table>
+	</fieldset>
+<div id = "wrestlerStats">
+<fieldset class="center">
+		<legend id="individual_stats_name"></legend>
+		<div id="stats_table_container">
+		
+		<table class="striped sortable" id="individual_stats">
+			<thead>
+				<tr>
+					<th>Takedowns</th>
+					<th>Escapes</th>
+					<th>Nearfall</th>
+					<th>Pins</th>
+					<th>Wins</th>
+					<th>Losses</th>
+					<th>Teampoints</th>
+					<th>Reversals</th>
+					<th>Forfeits</th>
+				</tr>
+			</thead>
+		</table>
+		</div>
+		<img id="loading_stats" class="align-left" src="/img/loading.gif" width="40"/>
+		<a class ="button small" onclick="closeStats();">Close</a>
+	</fieldset>
+	
+</div>
+<div id = "current_match_container">
+<fieldset class="center">
+		<legend id="individual_stats_name"></legend>
+		<h4 id="no_current_match" style="color:white">No Current Match</h4>
+		<div id="stats_table_container">
+		
+		<table class="striped sortable" id="current_match_table">
+			<thead>
+				<tr>
+					<th>Match Name</th>
+					<th>Wrestler</th>
+					<th>Period</th>
+					<th>Point Type</th>
+					<th>Point Score</th>
+					<th>Date</th>
+				</tr>
+			</thead>
+		</table>
+		</div>
+		<a class ="button small" onclick="stopCurrentMatchRetrieval();">Close</a>
+	</fieldset>
+	
+</div>
+<br>
+<br>
+<br>	
+<div class="site-footer">
+<p>&copy; 2015 Westminster Wrestling</p>
+<a href="/change-log">Powered by WrestlingManager v1.15</a>
+</div>
+</div>
+</body>
+</html>

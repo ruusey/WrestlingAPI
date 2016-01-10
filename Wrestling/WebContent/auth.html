@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Little Game</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="/js/crafty.js"></script>
+<style>
+body, html {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	font-family: Arial;
+	font-size: 20px
+}
+
+#cr-stage {
+	border: 2px solid black;
+	margin: 5px auto;
+	color: white
+}
+</style>
+</head>
+<p id="mouse_x"></p>
+<p id="mouse_y"></p>
+<p id="player_x"></p>
+<p id="player_y"></p>
+
+<body>
+	<script>
+	var health = 200;
+	var player;
+	var area;
+	var mouseX;
+	var mouseY;
+	var $player;
+	var playerX;
+	var playerY;
+	var enemy;
+	var UUID;
+	var playerJSON;
+	
+$( document ).on( "mousemove", function( event ) {
+	$("#mouse_x").text("Mouse X:" + event.pageX);
+	$("#mouse_y").text("Mouse Y:" + event.pageY);
+	mouseX=event.pageX;
+	mouseY=event.pageY;
+});	
+$(document).click(function() {
+    attack();
+});
+window.onload = function() {
+	
+    Crafty.init(800,640);
+   	UUID=guid();
+    area = Crafty.e('2D, DOM, Mouse')
+    .attr({x: 0, y: 0, w: 800, h: 640})
+    .bind('EnterFrame', function(e){
+    	if(player!=null){
+    		$player = $("#ent"+player[0]);
+        	playerX=$player.offset().left+8;
+        	playerY=$player.offset().top+8;
+        	$("#player_x").text("Player X:" + Math.round(playerX));
+        	$("#player_y").text("Player Y:" + Math.round(playerY));
+        	playerJSON = { 
+        			'x': player.x,
+        			'y': player.y, 
+        			'UUID': UUID,
+        			'ip': null
+        		};
+    	}
+    	update();
+    	
+    })
+    
+     
+    Crafty.sprite(16, '/js/sprite.png', { 
+    	
+    	'grass1': [0,0],
+        'grass2': [1,0],
+        'grass3': [2,0],
+        'grass4': [3,0],
+        'sword':  [4,0],
+        'flower': [0,1],
+        'bush1':  [0,2],
+        'bush2':  [1,2],
+        'player': [0,3]
+
+    }
+
+    );
+    generateWorld();
+ 	drawPlayer();
+ 	joinServer();
+}
+function guid() {
+	  function s4() {
+	    return Math.floor((1 + Math.random()) * 0x10000)
+	      .toString(16)
+	      .substring(1);
+	  }
+	  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+	    s4() + '-' + s4() + s4() + s4();
+	}
+function joinServer(){
+
+	$.ajax({
+	    url: '/rest2/Game/Connect',
+	    type: 'POST',
+	    data: JSON.stringify(playerJSON),
+	    contentType: 'application/json; charset=utf-8',
+	    dataType: 'json',
+	    async: false,
+	    success: function(msg) {
+	    	var str = JSON.stringify(msg);
+	    	if(str.indexOf("true")>-1){
+	    		
+	    	}else{
+	    		alert("Error: "+str);
+	    	}
+	    	
+	    }
+	});
+}
+function update(){
+	$.ajax({
+	    url: '/rest2/Game/Update',
+	    type: 'GET',
+	    success: function(msg) {
+	    	$.each(msg,function(i,item) {
+	    		Crafty.e("2D, DOM, player,SpriteAnimation,").attr({x: item['x'], y: item['y']});
+	    		
+	    	});
+	    }
+	});
+}
+function drawPlayer(){
+	player = Crafty.e("2D, DOM, player, Fourway, SpriteAnimation, Collision")
+	  .attr({x: 100, y: 100})
+	  .fourway(80)
+	  .reel('idle', 200, 0, 3, 1)
+	  .reel('PlayerDown', 200, 1, 3, 2)
+	  .reel('PlayerUp', 200, 4, 3, 2)
+	  .reel('PlayerLeft', 200, 7, 3, 2)
+	  .reel('PlayerRight', 200, 10, 3, 2)
+	  .bind('KeyDown', function(e) {
+		  
+	    if(e.key == Crafty.keys.LEFT_ARROW) {
+	      	player.animate('PlayerLeft', -1);
+	    } else if (e.key == Crafty.keys.RIGHT_ARROW) {
+	    	player.animate('PlayerRight', -1);
+	    } else if (e.key == Crafty.keys.UP_ARROW) {
+	    	player.animate('PlayerUp', -1);
+	    } else if (e.key == Crafty.keys.DOWN_ARROW) {
+	    	player.animate('PlayerDown', -1);
+	    }
+	    
+	  })
+	  .bind('KeyUp', function(e) {
+		  if(e.key == Crafty.keys.LEFT_ARROW) {
+		      	player.pauseAnimation();
+		    } else if (e.key == Crafty.keys.RIGHT_ARROW) {
+		    	player.pauseAnimation();
+		    } else if (e.key == Crafty.keys.UP_ARROW) {
+		    	player.pauseAnimation();
+		    } else if (e.key == Crafty.keys.DOWN_ARROW) {
+		    	player.pauseAnimation();
+		    }
+	  });
+	playerJSON = { 
+			'x': player.x,
+			'y': player.y, 
+			'UUID': UUID,
+			'ip': null
+		};
+	 
+    
+}
+function drawEnemy(){
+	
+}
+function attack(){
+	var projectile = Crafty.e("2D, DOM, sword, SpriteAnimation, Collision").attr({x: player.x+4, y: player.y+8})
+	.onHit("solid", function(entities) {
+        for (var i in entities) {
+             entities[i].obj.destroy();
+             projectile.destroy();
+        }
+    });
+	 
+	var currentX = playerX;
+	var currentY = playerY;
+	var currentMX = mouseX;
+	var currentMY = mouseY;
+	var deltaX = (currentX - mouseX);
+	var deltaY = (currentY - mouseY);
+	
+	var angleRad = (Math.atan2(deltaY, deltaX));
+	var angleDeg = angleRad * (180 / Math.PI);
+	projectile.rotation = angleDeg-90;
+	var magnitude = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+	var xVelocity = 0;
+	var yVelocity = 0;
+	
+	if (magnitude != 0) {
+	    xVelocity = -(deltaX / magnitude)*2;
+	    yVelocity = -(deltaY / magnitude)*2;
+	}
+	projectile.bind("EnterFrame", function(eventData) {
+		var deltaProjX = (player.x - projectile.x);
+		var deltaProjY = (player.y - projectile.y);
+		var magProj = Math.sqrt(deltaProjX*deltaProjX + deltaProjY*deltaProjY);
+		if(magProj>50){
+			projectile.destroy();
+		}else{
+			projectile.x+=xVelocity;
+			projectile.y+=yVelocity;
+			
+		}
+			
+  		});
+
+}    
+    
+function generateWorld() {
+    // Generate the grass along the x-axis
+    for (var i = 0; i < 50; i++) {
+      // Generate the grass along the y-axis
+      for (var j = 0; j < 40; j++) {
+    	 var grassType = Math.floor(Math.random() * 4) + 1;  
+        Crafty.e("2D, DOM, grass" + grassType)
+          .attr({x: i * 16, y: j * 16});
+
+        // 1/50 chance of drawing a flower and only within the bushes
+        if ((Math.floor(Math.random() * 50) + 0)  > 47) {
+          Crafty.e("solid, 2D, DOM, flower, animate")
+            .attr({x: i * 16, y: j * 16})
+            
+        }
+      }
+    }
+
+    
+}  
+</script>
+
+</body>
+</html>

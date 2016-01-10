@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Wrestling Manager | Manage Team</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/js/kickstart.js"></script> <!-- KICKSTART -->
+<script src="/js/scripts.js"></script> <!-- KICKSTART -->
+<script src="/ckeditor/ckeditor.js"></script> <!-- KICKSTART -->
+<script src="/toastr/toastr.js"></script> <!-- KICKSTART -->
+<link rel="stylesheet" href="/toastr/build/toastr.css" media="all" /> 
+<link rel="shortcut icon" href="/img/icn.png">
+<link rel="stylesheet" href="/css/kickstart.css" media="all" /> 
+<link rel="stylesheet" href="/css/fonts/css/font-awesome.css" media="all" /> <!-- KICKSTART --><!-- KICKSTART -->
+<link rel="stylesheet" href="/css/fonts/css/font-awesome.min.css" media="all" /> <!-- KICKSTART --><!-- KICKSTART -->
+<link rel="stylesheet" type="text/css" media="only screen and (max-device-width: 600px)" href="/css/mobile.css" />
+</head>
+<body>
+<div class="grid flex">
+<div id="page_overlay"class="overlay"></div>
+
+<div id='cssmenu'>
+<ul>
+   <li id="show_add_new_wrestler_mobile"><a><i class="fa fa-plus-square fa-lg"></i>&nbsp; Add Wrestler</a></li>
+	<li><a id="show_contact_team_mobile"><i class="fa fa-envelope-o fa-lg"></i>&nbsp; Contact Team</a></li>
+	<li><a href="/match"><i class="fa fa-sitemap fa-lg"></i>&nbsp; Create Match</a></li>
+	<li><a href="/"><i class="fa fa-home fa-lg"></i>&nbsp; Home</a></li>
+	<li><a href="/logs"><i class="fa fa-list fa-lg"></i>&nbsp; Logs</a></li>
+	<li><a id="show_manage_events_mobile"><i class="fa fa-list fa-lg"></i>&nbsp; Manage Events</a></li>
+</ul>
+</div>
+<div id="coach_menu_container" class="col_2 column">
+
+<button class="button large" style="width:90%"id="show_coach_menu"><i id="menu_caret"class="fa fa-caret-right">&nbsp; Coach Menu</i></button>
+<ul id="coach_menu" class="menu vertical ">
+
+	<li id="show_add_new_wrestler"><a><i class="fa fa-plus-square fa-lg"></i>&nbsp; Add Wrestler</a></li>
+	<li><a id="show_contact_team"><i class="fa fa-envelope-o fa-lg"></i>&nbsp; Contact Team</a></li>
+	<li><a href="/match"><i class="fa fa-sitemap fa-lg"></i>&nbsp; Create Match</a></li>
+	<li><a href="/"><i class="fa fa-home fa-lg"></i>&nbsp; Home</a></li>
+	<li><a href="/logs"><i class="fa fa-list fa-lg"></i>&nbsp; Logs</a></li>
+	<li><a id="show_manage_events"><i class="fa fa-list fa-lg"></i>&nbsp; Manage Events</a></li>
+</ul>
+</div>
+<div id="main_menu_container" class="col_7 column">
+
+</div>
+<img id="home_image" class="align-right col_3 column" src="/img/Wrestling.png" width="400"/>
+<hr class="alt1" style="color:orange"></hr>
+<div id="new_wrestler_container" class="col_2 column">
+<fieldset style="width:100%" id="new_wrestler_fieldset">
+<legend>Add New Wrestler</legend>
+<form id="new_wrestler_form" class="vertical">
+	<label for="text21">Enter Information:</label>
+	<input type="text" name="text21" id="name_input" placeholder="Name">
+	<hr style="color:white"class="alt1"></hr>
+	<input type="text" name="text22" id="weight_input" placeholder="Weight">
+	<input type="text" name="text23" id="phone_input" placeholder="Phone Number">
+	<input type="text" name="text24" id="email_input" placeholder="Email">
+	<fieldset id="contact_methods">
+	<legend class=center>Preferred Contact Method <br>(For Updates From Coach Hayes)</legend>
+	<input value="1" type="radio" name="contact_radio" id="phone_contact" />
+	<label for="phone_contact" class="inline">Phone</label>
+	<input value="2" type="radio" name="contact_radio" id="email_contact" />
+	<label for="email_contact" class="inline">Email</label>
+	<input value="0" type="radio" name="contact_radio" id="none_contact" />
+	<label for="none_contact" class="inline">None</label>
+	</fieldset>
+	<label for="teamSelect">Team: </label>
+	<select id="teamSelect">
+	<option value="1">Westminster Varsity</option>
+	<option value="2">Westminster JV</option>
+	</select>
+	
+	<button id="new_wrestler_submit" type="button" onclick="sendWrestler();"><i class="fa fa-plus fa-lg"></i>&nbsp; Add</button>
+	<button id="new_wrestler_close" type="button" class="red"><i class="fa fa-close fa-lg"></i>&nbsp; Close</button>
+</form>
+
+</fieldset>
+
+</div>
+<div id="event_manage_container" class="col_6 column">
+<fieldset style="width:100%" id="new_wrestler_fieldset">
+<legend>Manage Events</legend>
+<form class="vertical">
+	<label for="event_date">Event Date : </label><input id="event_date" type="date" value="2015-10-1"/>
+	<label for="event_title">Title : </label><input id="event_title" type="text" placeholder="title"/>
+	<label for="event_description">Brief Description : </label><input id="event_description" type="text" placeholder="description"/>
+	<button id="event_manage_add" type="button" class="green"><i class="fa fa-plus fa-lg"></i>&nbsp; Add</button>
+	<button id="event_manage_close" type="button" class="red"><i class="fa fa-close fa-lg"></i>&nbsp; Close</button>
+</form>
+<table id="current_events">
+<thead>
+				<tr>
+					<th>Event</th>
+					<th>Description</th>
+					<th>Date</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+</table>
+
+</fieldset>
+
+</div>
+<div id="bulletin_container" class="center col_4 column">
+<h4 style="color:#00573c">Important Information</h4>
+<textarea name="team_bulletin" id="team_bulletin" rows="20" cols="80">
+               
+</textarea>
+            <button id="update_bulletin"type="button" class="button large"><i class="fa fa-save"></i>&nbsp; Save</button>
+</div>
+<div class="col_4 column">
+
+</div>
+
+<div id="top_stats_outer"class="center col_4 column" style="float:right;">
+<h4 style="color:#00573c">Top Stats</h4>
+<br>
+
+
+<div class="top_stats_container" >
+
+<table id="top_stats" class="striped">
+<thead>
+				<tr>
+					<th>Stat</th>
+					<th>Name</th>
+					<th>Number</th>
+				</tr>
+			</thead>
+</table>
+</div>
+</div>
+
+
+
+ 
+<div id="sms_send_div" class="col_6 column">
+<fieldset>
+<legend>Contact Team</legend>
+<form>
+	<textarea rows="4" cols="50" id="sms_input"></textarea>
+	<button id="sms_send_button" type="button"><i class="fa fa-send fa-lg"></i>&nbsp; Send</button>
+	<button id="sms_send_close"type="button" class="red"><i class="fa fa-close"></i>&nbsp; Close</button>
+</form>
+	
+</fieldset>
+</div>
+<div id="update_div" z-index: 999">
+<ul class="tabs left">
+<li><a href="#tabr3">Modify Wrestler</a></li>
+<li><a href="#tabr4">Modify Stats</a></li>
+</ul>
+<div class="tab-content" id="tabr3">
+<p id="hidden_id_update"></p>
+<fieldset id="update_wrestler_fieldset">
+<legend>Modify Wrestler</legend>
+<form class="vertical">
+	<label for="name_change">Enter Information:</label>
+	<input type="text" name="name_change" id="name_change" placeholder="Name">
+	<hr style="color:white"class="alt1"></hr>	
+	<input type="text" name="weight_change" id="weight_change" placeholder="Weight">
+	<input type="text" name="phone_change" id="phone_change" placeholder="Phone Number">
+	<input type="text" name="email_change" id="email_change" placeholder="Email">
+	<fieldset id="contact_methods_change">
+	<legend class=center>Preferred Contact Method</legend>
+	<input value="1" type="radio" name="contact_radio" id="select_contact1" />
+	<label for="phone_contact" class="inline">Phone</label>
+	<input value="2" type="radio" name="contact_radio" id="select_contact2" />
+	<label for="email_contact" class="inline">Email</label>
+	<input value="0" type="radio" name="contact_radio" id="select_contact0" />
+	<label for="none_contact" class="inline">None</label>
+	</fieldset>
+	<label for="team_change_select">Team: </label>
+	<select id="team_change_select">
+	<option id="team_change1"value="1">Westminster Varsity</option>
+	<option id="team_change2"value="2">Westminster JV</option>
+	</select>
+	
+	<button id="modify_wrestler_submit" type="button" onclick="modifyWrestler();"><i class="fa fa-floppy-o fa-lg"></i>&nbsp; Save</button>
+	<button id="modify_wrestler_close" type="button" class="red" onclick="closeUpdate();"><i class="fa fa-close fa-lg"></i>&nbsp; Close</button>
+</form>
+
+</fieldset>
+</div>
+<div class="tab-content" id="tabr4">
+<fieldset id="update_wrestler_fieldset">
+<legend>Modify Stats</legend>
+<div id = "wrestler_stats_modify">
+
+		<div id="stats_table_container_modify">
+		<table class="striped sortable" id="individual_stats_modify">
+			<thead>
+				<tr>
+					<th>Takedowns</th>
+					<th>Escapes</th>
+					<th>Nearfall</th>
+					<th>Pins</th>
+					<th>Wins</th>
+					<th>Losses</th>
+					<th>Teampoints</th>
+					<th>Reversals</th>
+					<th>Forfeits</th>
+				</tr>
+			</thead>
+		</table>
+		<button id="modify_stats_submit" type="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp; Save</button>
+		<button id="modify_wrestler_close" type="button" class="red" onclick="closeUpdate();"><i class="fa fa-close fa-lg"></i>&nbsp; Close</button>
+		</div>
+	
+</div>
+
+</fieldset>
+</div>
+</div>
+<div id="delete_confirm" style="position:absolute; z-index: 2">
+<fieldset style="background:white">
+<legend>Confirm Delete?</legend>
+
+<form class="vertical">
+	<p id=hiddenIdDel></p>
+	<button class="small red" onclick="openDelete(0);">No</button>
+	<button class="small" onclick="deleteWrestler();">Yes</button>
+  	<br>
+</form>
+
+</fieldset>
+</div>
+
+<ul class="tabs left">
+<li><a href="#tabr1">Westminster Varsity</a></li>
+<li><a href="#tabr2">Westminster JV</a></li>
+</ul>
+
+<div id="tabr1" class="tab-content">
+<fieldset id="wrestlers_fieldset" class="center col_12 column">
+		<legend>Current Wrestlers</legend>
+		<table class="striped sortable" id="wrestlers_table">
+			<thead>
+				<tr>
+					<th>Actions</th>
+					<th>Name</th>
+					<th>Weight</th>
+				</tr>
+			</thead>
+		</table>
+	</fieldset>
+</div>
+<div id="tabr2" class="tab-content">
+<fieldset id="wrestlers_fieldset" class="center col_12 column">
+		<legend>Current Wrestlers</legend>
+		<table class="striped sortable" id="wrestlers_table_jv">
+			<thead>
+				<tr>
+					<th>Actions</th>
+					<th>Name</th>
+					<th>Weight</th>
+				</tr>
+			</thead>
+		</table>
+	</fieldset>
+</div>
+	
+<div id = "wrestlerStats">
+<fieldset class="center">
+		<legend id="individual_stats_name"></legend>
+		<div id="stats_table_container">
+		<table class="striped sortable" id="individual_stats">
+			<thead>
+				<tr>
+					<th>Takedowns</th>
+					<th>Escapes</th>
+					<th>Nearfall</th>
+					<th>Pins</th>
+					<th>Wins</th>
+					<th>Losses</th>
+					<th>Teampoints</th>
+					<th>Reversals</th>
+					<th>Forfeits</th>
+				</tr>
+			</thead>
+		</table>
+		</div>
+		<img id="loading_stats" class="align-left" src="/img/loading.gif" width="40"/>
+		<a class ="button small" onclick="closeStats();">Close</a>
+	</fieldset>
+	
+</div>
+<br>
+<br>
+<br>	
+<div class="site-footer">
+<p>&copy; 2015 Westminster Wrestling</p>
+<a href="/change-log">Powered by WrestlingManager v1.15</a>
+</div>
+</div>
+</body>
+</html>

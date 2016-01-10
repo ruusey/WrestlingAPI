@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Wrestling Manager | Create Match</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/js/kickstart.js"></script> <!-- KICKSTART -->
+ <!-- KICKSTART -->
+<script src="/js/scripts_matches.js"></script> <!-- KICKSTART -->
+<script src="/toastr/toastr.js"></script> <!-- KICKSTART -->
+<link rel="stylesheet" href="/toastr/build/toastr.css" media="all" /> 
+<link rel="shortcut icon" href="/img/icn.png">
+<link rel="stylesheet" href="/css/kickstart.css" media="all" /> 
+<link rel="stylesheet" href="/css/fonts/css/font-awesome.css" media="all" /> <!-- KICKSTART --><!-- KICKSTART -->
+<link rel="stylesheet" href="/css/fonts/css/font-awesome.min.css" media="all" /> <!-- KICKSTART --><!-- KICKSTART -->
+<link rel="stylesheet" type="text/css" media="only screen and (max-device-width: 600px)" href="/css/mobile.css" />
+</head>
+<body>
+<div class="grid flex">
+
+<p id = "home_wrestler_id"></p>
+<div id="coach_menu_container" class="col_2 column">
+<button class="button large" style="width:90%"id="show_coach_menu2"><i id="menu_caret2" class="fa fa-caret-right">Coach Menu</i></button>
+<ul id="coach_menu2" class="menu vertical ">
+
+<li><a href="/manage"><i class="fa fa-pencil fa-lg"></i>&nbsp; Manage Team</a></li>
+
+<li><a id="change_managing_team"><i class="fa fa-exchange fa-lg"></i>&nbsp;Manage Another Team</a>
+<ul>
+	<li id="change_team_to_1_matches"><a >Westminster Varsity</a></li>
+	
+	<li id="change_team_to_2_matches"><a>Westminster JV</a></li>
+	</ul></li>
+
+</ul>
+</div>
+
+<div id="main_menu_container" class="col_7 column">
+
+</div>
+<div id="solo_match_selector" class="col_12 column center" onclick="showSoloMatch();"> <h4 style="color:white"> New Solo Match</h4></div>
+<div id="meet_match_selector" class="col_12 column center" onclick="showMeet();"> <h4 style="color:white"> New Meet </h4></div>
+<hr id="mobile_separator"></hr>
+<div class="col_3 column" id="meet_data">
+<h4 style="color:black" id="meet_versus_data"></h4>
+<table id = "meet_score_data">
+<thead>
+				<tr>
+					<th>Home Team Score</th>
+					<th>Opponent Team Score</th>
+				</tr>
+			</thead>
+			<tr id="score_trow">
+			<td id=home_meet_score>0</td>
+			<td id=away_meet_score>0</td>
+			</tr>
+
+</table>
+</div>
+<div id="new_meet_container" class="col_12 column">
+<fieldset id="new_meet_vs">
+<legend>New Meet VS:</legend>
+<div>
+ 		<input class="col_2" type="text" placeholder="Opponent Team Name" id="away_team_name">
+ 		<a id="begin_meet_button" class="button" onclick="setupMeet();"><i class="fa fa-play-circle fa-lg"></i>&nbsp; Begin Meet</a>
+</div>
+</fieldset>
+</div>
+<div id="new_solo_container" class="col_12 column">
+<fieldset id="new_solo_match">
+<legend>New Solo Match:</legend>
+
+<div id="w_select_container">
+<select id="wrestler_select">
+<option value="0">-- Choose Wrestler--</option>
+</select>
+<label for="away_name_input">Opponent Name:</label>
+ 		<input class="col_3" type="text" id="away_name_input">
+<a class="button" onclick="setupMatch();"><i class="fa fa-play-circle fa-lg"></i>&nbsp; Begin Match</a>
+</div>
+</fieldset>
+</div>
+<div class="col_12 column" id="add_prepared_match_manual">
+<select id="wrestler_select_prepared">
+<option value="0">-- Choose Wrestler--</option>
+</select>
+
+<a class="button" onclick="addManualMatch();"><i class="fa fa-play-circle fa-lg"></i>&nbsp; Add Match</a></div>
+
+<div id="prepared_matches_container"class="col_10 column">
+
+<table id = "prepared_matches"class="center">
+<thead>
+				<tr>
+					<th>Home Wrestler</th>
+					<th>Opponent</th>
+					<th>Start Match</th>
+				</tr>
+			</thead>
+
+
+
+</table>
+<div>
+<button class="red" id="home_forfeit">Give Up Home Forfeit (+6)</button>
+<button class="red" id="away_forfeit">Give Up Away Forfeit (+6)</button>
+<br>
+<button class="red" id="home_technical">Home Technical Violation (-1)</button>
+<button class="red" id="away_technical">Away Technical Violation (-1)</button>
+</div>
+</div>
+<div id = "home_score_container" class="col_7 column" >
+<fieldset id="home_points" style="margin:0">
+		
+		<legend>Home Scoring</legend>
+		<button id="home_td" class="button medium blue">Takedown</button>
+		<button id="home_e" class="button medium blue">Escape</button>
+		<button id="home_r" class="button medium blue">Reversal</button>
+		<button id="home_nf2" class="button medium blue">Nearfall 2</button>
+		<button id="home_nf3" class="button medium blue">Nearfall 3</button>
+		<button id="home_tv" class="button medium blue">Technical Violation</button>
+		<button id="home_p" class="button medium blue">Pin</button>
+		<button id="home_f" class="button medium blue">Default Win</button>
+		
+		</fieldset>
+	</div>
+		
+		<div id = "away_score_container"class="col_7 column">
+		<fieldset id="away_points" style="margin:0">
+		<legend>Away Scoring</legend>
+		<button id="away_td" class="button medium blue">Takedown</button>
+		<button id="away_e" class="button medium blue">Escape</button>
+		<button id="away_r" class="button medium blue">Reversal</button>
+		<button id="away_nf2" class="button medium blue">Nearfall 2</button>
+		<button id="away_nf3" class="button medium blue">Nearfall 3</button>
+		<button id="away_tv" class="button medium blue">Technical Violation</button>
+		<button id="away_p" class="button medium blue">Pin</button>
+		
+		</fieldset>
+	</div>
+		
+		<hr></hr>		
+<fieldset id="match_container"class="col_12 column">
+<div class="match" >
+<a id="close_current_match" class="button medium red"><i class="fa fa-close fa-lg"></i>&nbsp; Cancel Match</a>
+<form action="">
+<input type="checkbox" id="track_match_radio" value="1">Don't Track Stats For This Match<br>
+</form>
+<table id="match_table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Period 1</th>
+					<th>Period 2</th>
+					<th>Period 3</th>
+					<th>Current Score</th>
+				</tr>
+			</thead>
+			<tr id="home_wrestler_row">
+			<td style="font-size:1.5em" id="home_wrestler_name"></td>
+			<td id="home_wrestler_p1"></td>
+			<td id="home_wrestler_p2"></td>
+			<td id="home_wrestler_p3"></td>
+			<td style="font-size:1.3em" id="home_wrestler_score"></td>
+			</tr>
+			
+			<tr id="away_wrestler_row">
+			<td style="font-size:1.5em" id="away_wrestler_name"></td>
+			<td id="away_wrestler_p1"></td>
+			<td id="away_wrestler_p2"></td>
+			<td id="away_wrestler_p3"></td>
+			<td style=" font-size:1.3em" id="away_wrestler_score"></td>
+			</tr>
+		</table>
+		<br>
+		<hr class="alt2" />
+		<button id="next_period" class="button small green"><i class="fa fa-arrow-right fa-2x fa-fw"></i>&nbsp; Next Period</button>
+		<button id="finalize_match" class="button small blue"><i class="fa fa-check-square fa-2x fa-fw"></i>&nbsp; Finalize Match</button>
+		<p id ="current_period"></p>
+		
+		
+		
+</div>
+</fieldset>
+
+<div class="site-footer">
+<p>&copy; 2015 Westminster Wrestling</p>
+<a href="/change-log">Powered by WrestlingManager v1.15</a>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Wrestling Manager | Logs</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/js/kickstart.js"></script> <!-- KICKSTART -->
+ <!-- KICKSTART -->
+<script src="/js/scripts_logs.js"></script> <!-- KICKSTART -->
+<script src="/toastr/toastr.js"></script> <!-- KICKSTART -->
+<link rel="stylesheet" href="/toastr/build/toastr.css" media="all" /> 
+<link rel="shortcut icon" href="/img/icn.png">
+<link rel="stylesheet" href="/css/kickstart.css" media="all" /> 
+<link rel="stylesheet" href="/css/fonts/css/font-awesome.css" media="all" /> <!-- KICKSTART --><!-- KICKSTART -->
+<link rel="stylesheet" href="/css/fonts/css/font-awesome.min.css" media="all" /> <!-- KICKSTART --><!-- KICKSTART -->
+</head>
+<body>
+<div id="page_overlay"class="overlay"></div>
+<a href="/" class="button large green" style="float:left;position:absolute"><i class="fa fa-home"></i>Home</a>
+<hr></hr>
+<div id="match_logs_container" class="col_12 column">
+<fieldset id="match_logs_fieldset">
+		<legend>Available Logs</legend>
+		<table class="striped sortable" id="match_logs_table">
+			<thead>
+				<tr>
+					<th>Match</th>
+					<th>Date</th>
+					<th>View Match</th>
+				</tr>
+			</thead>
+		</table>
+	</fieldset></div>
+	<div  id="log_container" class="col_4 column">
+<fieldset id="match_logs_fieldset">
+		<legend>Log</legend>
+		<table class="striped sortable" id="match_logged_table">
+			<thead>
+				<tr>
+					<th>Wrestler</th>
+					<th>Period</th>
+					<th>Point Type</th>
+					<th>Point Score</th>
+				</tr>
+			</thead>
+		</table>
+		<table class="striped sortable" id="match_result_table">
+			<thead>
+				<tr>
+					<th>Home Score</th>
+					<th>Away Score</th>
+					<th>Match Result</th>
+				</tr>
+			</thead>
+		</table>
+		<button id="log_close" class="red">Close</button>
+	</fieldset></div>
+	<div class="site-footer">
+<p>&copy; 2015 Westminster Wrestling</p>
+<a href="/change-log">Powered by WrestlingManager v1.15</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>Westminster Wrestling Manager</display-name>
+
+	<servlet>
+		<servlet-name>JerseyServlet</servlet-name>
+		<servlet-class>
+                     com.sun.jersey.spi.container.servlet.ServletContainer
+                </servlet-class>
+		<init-param>
+		     <param-name>com.sun.jersey.config.property.packages</param-name>
+		     <param-value>com.servlets</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+
+	<servlet-mapping>
+		<servlet-name>JerseyServlet</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	
+	<security-constraint>
+    <display-name>Login Required</display-name>
+    <web-resource-collection>
+      <web-resource-name>Protected Area - Deny methods</web-resource-name>
+      <url-pattern>/manage/*</url-pattern>
+    </web-resource-collection>
+    <web-resource-collection>
+      <web-resource-name>Protected Area - Deny methods</web-resource-name>
+      <url-pattern>/match/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>wrestling-admin</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <realm-name>Example Form-Based Authentication Area</realm-name>
+    <form-login-config>
+      <form-login-page>/login.jsp</form-login-page>
+      <form-error-page>/serror.jsp</form-error-page>
+    </form-login-config>
+  </login-config>
+  <security-role>
+    <role-name>9gagUser</role-name>
+  </security-role>
+  <security-constraint>
+    <web-resource-collection>
+        <web-resource-name>css</web-resource-name>
+        <url-pattern>/css/*</url-pattern>
+    </web-resource-collection>
+    <!-- OMIT auth-constraint -->
+</security-constraint>
+<security-constraint>
+    <web-resource-collection>
+        <web-resource-name>add</web-resource-name>
+        <url-pattern>/Add/*</url-pattern>
+    </web-resource-collection>
+    <!-- OMIT auth-constraint -->
+</security-constraint>
+<security-constraint>
+    <web-resource-collection>
+        <web-resource-name>js</web-resource-name>
+        <url-pattern>/js/*</url-pattern>
+    </web-resource-collection>
+    <!-- OMIT auth-constraint -->
+</security-constraint>
+<security-constraint>
+    <web-resource-collection>
+        <web-resource-name>toastr</web-resource-name>
+        <url-pattern>/toastr/*</url-pattern>
+    </web-resource-collection>
+    <!-- OMIT auth-constraint -->
+</security-constraint>
+<security-constraint>
+    <web-resource-collection>
+        <web-resource-name>ckeditor</web-resource-name>
+        <url-pattern>/ckeditor/*</url-pattern>
+    </web-resource-collection>
+    <!-- OMIT auth-constraint -->
+</security-constraint>
+<security-constraint>
+    <web-resource-collection>
+        <web-resource-name>add_home</web-resource-name>
+        <url-pattern>/rest/Wrestling/Add</url-pattern>
+    </web-resource-collection>
+    <!-- OMIT auth-constraint -->
+</security-constraint>
+<security-constraint>
+    <web-resource-collection>
+        <web-resource-name>img</web-resource-name>
+        <url-pattern>/img/*</url-pattern>
+    </web-resource-collection>
+    <!-- OMIT auth-constraint -->
+</security-constraint>
+	
+</web-app>

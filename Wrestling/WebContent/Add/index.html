@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Wrestling Manager | Add</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/js/kickstart.js"></script> <!-- KICKSTART -->
+<script src="/js/add_scripts.js"></script> <!-- KICKSTART -->
+<script src="/ckeditor/ckeditor.js"></script> <!-- KICKSTART -->
+<script src="/toastr/toastr.js"></script> <!-- KICKSTART -->
+<link rel="stylesheet" href="/toastr/build/toastr.css" media="all" /> 
+<link rel="shortcut icon" href="/img/icn.png">
+<link rel="stylesheet" href="/css/kickstart.css" media="all" /> 
+<link rel="stylesheet" href="/css/fonts/css/font-awesome.css" media="all" /> <!-- KICKSTART --><!-- KICKSTART -->
+<link rel="stylesheet" href="/css/fonts/css/font-awesome.min.css" media="all" /> <!-- KICKSTART --><!-- KICKSTART -->
+<link rel="stylesheet" type="text/css" media="only screen and (max-device-width: 600px)" href="/css/mobile.css" />
+</head>
+<body>
+<div class="col_4_column center">
+<a href="/" class="button large green" style="float:left;position:absolute"><i class="fa fa-home"></i>Home</a>
+</div>
+
+<div id="new_wrestler_container" style="top:10%"class="col_4 column center">
+<h3 class="center"style="color:#00573c;background:white">Add Yourself To The Team</h3>
+<fieldset id="new_wrestler_fieldset">
+<legend>Add New Wrestler</legend>
+<form id="new_wrestler_form" class="vertical">
+	<label for="text21">Enter Information:</label>
+	<input type="text" name="text21" id="name_input" placeholder="Name">
+	<hr style="color:white"class="alt1"></hr>
+	<input type="text" name="text22" id="weight_input" placeholder="Weight">
+	<input type="text" name="text23" id="phone_input" placeholder="Phone Number">
+	<input type="text" name="text24" id="email_input" placeholder="Email">
+	<fieldset id="contact_methods">
+	<legend class=center>Preferred Contact Method <br>(For Updates From Coach Hayes)</legend>
+	<input value="1" type="radio" name="contact_radio" id="phone_contact" />
+	<label for="phone_contact" class="inline">Phone</label>
+	<input value="2" type="radio" name="contact_radio" id="email_contact" />
+	<label for="email_contact" class="inline">Email</label>
+	<input value="0" type="radio" name="contact_radio" id="none_contact" />
+	<label for="none_contact" class="inline">None</label>
+	</fieldset>
+	<label for="teamSelect">Team: </label>
+	<select id="teamSelect">
+	<option value="1">Westminster Varsity</option>
+	<option value="2">Westminster JV</option>
+	</select>
+	
+	<button id="new_wrestler_submit" type="button green"><i class="fa fa-plus fa-lg"></i>&nbsp; Add</button>
+</form>
+
+</fieldset>
+
+</div>
+<hr></hr>
+<div class="col_4_column center"></div>
+<div id="success_message" class="col_12_column center">
+<h1 class="center" style="color:#00573c;background:white">You Have Been Successfully Added To The Team</h1>
+</div>
+</body>
+</html>

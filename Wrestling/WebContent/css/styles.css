@@ -1,0 +1,33 @@
+@CHARSET "ISO-8859-1";
+@import url(http://fonts.googleapis.com/css?family=Arimo:400,700);
+body{
+	background-image:url("img/gray_jean.png") !important;
+	font:normal 0.9em/150% 'Arimo', arial, verdana, sans-serif;
+	overflow:hidden;
+	
+}
+.addWrestler{
+	margin-left:50%;
+	margin-right:50%;
+	
+}
+#footer{
+text-align:center;
+padding:20px;
+margin:0;
+border-top:1px solid #ddd;
+color:#999;
+font-size:0.8em;
+text-shadow:0px 1px 1px #fff;
+position: relative;
+top:0;
+left:0;
+background:#fff;
+}
+.editable:hover{
+	color:blue !important;
+}
+td{
+	height:20%;
+	font-size:1.1em;
+}
